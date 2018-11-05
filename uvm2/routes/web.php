@@ -46,3 +46,4 @@ Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('/registrarMesaSilla', 'MesasSillasController@registrarMesaSilla')->name('registrarMesaSilla');
 Route::get('/mesas', 'MesasSillasController@getMesasSillas')->name('getMesasSillas');
+Route::post('/validarReferencia', 'Controller@validarReferencia')->name('validarReferencia');

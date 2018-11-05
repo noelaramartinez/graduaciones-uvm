@@ -21,11 +21,11 @@
                 <form action="{{route('login')}}" method="POST">
                     <img src="{{ asset('images/uvm_logo.png') }}" alt="BannerHome_Compartamos" />
                     @if ($errors->any())
-                    <div class="alert alert-danger font-weight-bold" role="alert">
-                        Por Favor revise los siguientes errores
-                    </div>
-                    {!!$errors->first('error','<div class="help-block text-danger font-weight-bold">
-                        <strong>:message</strong></div>')!!}
+                        <div class="alert alert-danger font-weight-bold" role="alert">
+                            Por Favor revise los siguientes errores
+                        </div>
+                        {!!$errors->first('error','<div class="help-block text-danger font-weight-bold">
+                            <strong>:message</strong></div>')!!}
                     @endif
                     {!! csrf_field() !!}
                     <div class="col-auto ">
@@ -49,7 +49,7 @@
                                 <div class="input-group-text">Password</div>
                             </div>
                             <input type="password" class="form-control " 
-                            name="password" id="password" placeholder="*******">
+                            name="password" id="password" placeholder="contraseña">
                             {!! $errors->first('password','<span 
                             class="text-danger font-weight-bold">:message</span>') !!}
                         </div>

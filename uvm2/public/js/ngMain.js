@@ -1,5 +1,10 @@
 var app = angular.module('App', ['ngMaterial', 'ngSanitize']);
 
+app.config(['$interpolateProvider', function($interpolateProvider) {
+    $interpolateProvider.startSymbol('<%');
+    $interpolateProvider.endSymbol('%>');
+}]);
+
 app.controller('MesasSillasController', [
   "$scope",
   "$http",
@@ -15,11 +20,21 @@ app.controller('MesasSillasController', [
     $scope.usuario = "";
     $scope.arrTargets = []; //objeto en el dom, estado
     $scope.hiddendiv = true;
+    $scope.hiddenButton = false;
+    console.log($scope.hiddenButton);
     $scope.asientosDisponibles = 0;
     $scope.asientosDisponibles = angular.element("#asientosDisponibles").val();
     $scope.arrMesasSillasRegistradas = [];
+    var idReservacionUsuario = angular.element("#idReservacionUsuario").val();
 
-    console.log("los asientos disponibles son: " + $scope.asientosDisponibles);
+    if(idReservacionUsuario==null || idReservacionUsuario=="" || idReservacionUsuario==undefined
+    || +$scope.asientosDisponibles>0 || +idReservacionUsuario<1){
+      $scope.hiddenButton = true;
+    }
+
+    angular.element("#disponibles").html($scope.asientosDisponibles);
+
+    //console.log("los asientos disponibles son: " + $scope.asientosDisponibles);
 
     //FUNCION PARA OBTENER LOS DATOS A REGISTRAR EN LA RESERVACION
     $scope.agregarMesaSilla = function (event, idS, idM, ocupada) {
@@ -35,10 +50,10 @@ app.controller('MesasSillasController', [
       if (ocupada == "")
         ocupada = 0;
 
-      console.log(target);
-      console.log("esta ocupada: " + ocupada + "               idReservacionUsuario: " +
-        $scope.idReservacionUsuario +
-        "    nombres: " + nombres + "    idReservacionUsuario: " + idReservacionUsuario);
+      //console.log(target);
+      //console.log("esta ocupada: " + ocupada + "               idReservacionUsuario: " +
+        //$scope.idReservacionUsuario +
+        //"    nombres: " + nombres + "    idReservacionUsuario: " + idReservacionUsuario);
 
       if (!ocupada && nombres != null && nombres != undefined && nombres !== "") {
         //Seleccionar y deseleccionar lugar
@@ -52,6 +67,7 @@ app.controller('MesasSillasController', [
               val[0].setAttribute("stroke", "transparent");
               val[0].setAttribute("stroke-width", "0");
               $scope.asientosDisponibles++;
+              angular.element("#disponibles").html($scope.asientosDisponibles);
             } else {
               if ($scope.asientosDisponibles > 0) {
                 val[1] = true;
@@ -59,6 +75,7 @@ app.controller('MesasSillasController', [
                 target.setAttribute("stroke", colorSillaSelec);
                 target.setAttribute("stroke-width", "3");
                 $scope.asientosDisponibles--;
+                angular.element("#disponibles").html($scope.asientosDisponibles);
               }
             }
           }
@@ -75,9 +92,9 @@ app.controller('MesasSillasController', [
           $scope.arrTargets.push(arrAux.slice());
           arrAux.length = 0;
           $scope.asientosDisponibles--;
-
-          console.log(target);
-          console.log("el numero de asientos disponibles: " + $scope.asientosDisponibles);
+          angular.element("#disponibles").html($scope.asientosDisponibles);
+          //console.log(target);
+          //console.log("el numero de asientos disponibles: " + $scope.asientosDisponibles);
         }
       }
       //console.log("el arreglo de datos : ............." + $scope.arrTargets);
@@ -94,18 +111,18 @@ app.controller('MesasSillasController', [
       var auxMesa = "";
       var AuxSilla = "";
 
-      console.log("+++++++++++++++++++++++++++++" + $scope.arrTargets);
+      //console.log("+++++++++++++++++++++++++++++" + $scope.arrTargets);
       $scope.arrTargets.sort(function (a, b) {
         return a[2] - b[2]
       });
-      console.log("-----------------------------" + $scope.arrTargets);
+      //console.log("-----------------------------" + $scope.arrTargets);
 
       $scope.data = $scope.arrTargets.filter(function (target) {
         if (target[1])
           return target[1];
       });
 
-      console.log("******************************" + $scope.data);
+      //console.log("******************************" + $scope.data);
 
       if ($scope.data.length > 0) {
 
@@ -144,18 +161,17 @@ app.controller('MesasSillasController', [
         arrMesaSilla.push(mesaAnterior);
         arrMesaSilla.push(arrAux.slice());
         arrMesasSillasFinal.push(arrMesaSilla.slice());
-        $scope.arrMesasSillasRegistradas = arrMesasSillasFinal;
         var i = 0;
 
         angular.forEach(arrMesasSillasFinal, function (val, key) {
 
-          console.log(val);
-          console.log(val[0]);
+          //console.log(val);
+          //console.log(val[0]);
           html += "<tr>" +
             "<td><h5><span class='badge badge-pill badge-info'>" + (+val[0] + 1) + " </span></h5></td>" +
             "<td style='font-size: 24px;'>";
           angular.forEach(val[1], function (val1, key1) {
-            console.log(val1);
+            //console.log(val1);
             html += " <span  class='badge  badge-info font-weight-bold'> " +
               (+val1 + 1) + " </span> ";
             if (i == 0) {
@@ -173,7 +189,7 @@ app.controller('MesasSillasController', [
         html += "</tbody>" +
           "</table>";
 
-        console.log("muestra el html: " + html);
+        //console.log("muestra el html: " + html);
 
         $scope.modal("Registro de Reservaciones", html, "Aceptar", "aceptarReservacion");
       } else {
@@ -237,9 +253,9 @@ app.controller('MesasSillasController', [
       });
     };
 
+    //Se confirma la reservación y se procesa la solicitud
     $scope.aceptarReservacion = function () {
-
-      console.log($scope.idsMesas + " ................   " + $scope.idsSillas + " -----  " + $scope.idReservacionUsuario);
+      //console.log($scope.idsMesas + " ................   " + $scope.idsSillas + " -----  " + $scope.idReservacionUsuario);
       $http({
           method: 'POST',
           url: '/registrarMesaSilla',
@@ -248,7 +264,6 @@ app.controller('MesasSillasController', [
             idsMesas: $scope.idsMesas,
             idsSillas: $scope.idsSillas,
             idReservacion: $scope.idReservacionUsuario,
-            usuario: '$scope.usuario',
           }
         })
         .then(function successCallback(response) {
@@ -270,15 +285,20 @@ app.controller('MesasSillasController', [
 
           angular.element("#asientosDisponibles").val(0);
           $scope.limpiarControles();
-          console.log(response.data);
+          //console.log(response.data);
 
           var html = "";
 
           $scope.modal(
             "Lugares Reservados",
             "<h3><span class='badge badge-info'>Lugares reservados corectamente</span></h3>",
-            "imprimir",
-            "imprimirLugares");
+            "Acpetar",
+            "aceptar",
+          );
+
+          $scope.hiddenButton = false;
+
+          location.href = "mesas";
 
         }, function errorCallback(response) {
           $scope.limpiarControles();
@@ -289,17 +309,23 @@ app.controller('MesasSillasController', [
         });
     }
 
+    //Se imprimen los lugares reservados
     $scope.imprimirLugares = function () {
-      var myPrintContent = document.getElementById("hiden-div2");
+      var myPrintContent = document.getElementById("hiden-div");
       var myPrintWindow = window.open("", "", 'left=300,top=100,width=900,height=900');
       myPrintWindow.document.write(myPrintContent.innerHTML);
-      myPrintWindow.document.getElementById("hiden-table2").style.display = 'block';
+      //myPrintWindow.document.getElementsByClassName("hiden-table").style.display = 'block';
       myPrintWindow.document.close();
       myPrintWindow.focus();
       myPrintWindow.print();
       myPrintWindow.close();
     };
 
+    $scope.imprimir = function () {
+      window.print();
+    };
+
+    //Muestra un mensaje de error
     $scope.errorModal = function (titulo, mensaje, btnVal) {
       var confirm = $mdDialog.confirm()
         .title(titulo)
@@ -314,6 +340,6 @@ app.controller('MesasSillasController', [
 
       });
     };
-
   }
 ]);
+
