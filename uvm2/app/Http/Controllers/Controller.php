@@ -24,19 +24,36 @@ class Controller extends BaseController
 
         $usuario = $request->session()->get('usuario');
 
-        $user = DB::table('alumno')
-        ->where('no_cuenta', $usuario)
-        ->where('pass', $credentials['password'])
-        ->first();
+        $user=NULL;
+        $datosReservacionUsuario=NULL;
+        if($usuario){
+            $user = DB::table('alumno')
+            ->where('no_cuenta', $usuario)
+            ->where('pass', $credentials['password'])
+            ->first();
 
-        $datosReservacionUsuario = DB::table('reservacion')
-        ->join('alumno', 'alumno.id', '=', 'reservacion.id_alumno')
-        ->where('alumno.id', $user->id)
-        ->where('reservacion.id', $credentials["referencia"])
-        ->select('alumno.*', 'reservacion.*', 'reservacion.id as id_reservacion')
-        ->get();
+            if($user)
+            $datosReservacionUsuario = DB::table('reservacion')
+            ->join('alumno', 'alumno.id', '=', 'reservacion.id_alumno')
+            ->where('alumno.id', $user->id)
+            ->where('reservacion.id', $credentials["referencia"])
+            ->select('alumno.*', 'reservacion.*', 'reservacion.id as id_reservacion')
+            ->get();
+        }
         
         if($user && $datosReservacionUsuario){
+            require_once "libs/Mobile_Detect.php";
+            $detect = new Mobile_Detect;
+            
+            // Any mobile device (phones or tablets).
+            if ( $detect->isMobile() ) {
+                echo 'movil detectado';
+            }
+            
+            // Any tablet device.
+            if( $detect->isTablet() ){
+                echo 'tablet detectada';
+            }
             return View::make('copia', ['datosReservacionUsuario' => $datosReservacionUsuario]);
         }else{
             return back()->withErrors(['error'=> trans('auth.failed')])

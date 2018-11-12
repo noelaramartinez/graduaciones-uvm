@@ -59,6 +59,7 @@ class LoginController extends Controller
         ->orderBy('id_silla', 'asc')
         ->get();
 
+        if($user)
         $datosReservacionUsuario = DB::table('reservacion')
         ->join('alumno', 'alumno.id', '=', 'reservacion.id_alumno')
         ->where('alumno.id', $user->id)

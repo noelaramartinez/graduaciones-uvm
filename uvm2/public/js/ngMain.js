@@ -245,6 +245,7 @@ app.controller('MesasSillasController', [
             break;
           case "aceptarReservacion":
             $scope.asientosDisponibles = angular.element("#asientosDisponibles").val();
+            angular.element("#disponibles").html($scope.asientosDisponibles);
             break;
           default:
             break;
@@ -298,7 +299,7 @@ app.controller('MesasSillasController', [
 
           $scope.hiddenButton = false;
 
-          location.href = "mesas";
+          //location.href = "mesas";
 
         }, function errorCallback(response) {
           $scope.limpiarControles();

@@ -30,28 +30,45 @@ class MesasSillasController extends Controller
         Log::info("ds de las sillas_ " . $idsSillas);
         Log::info("ids de las sillas_ " . $idReservacion); */
 
-        //DB::beginTransaction();
+        DB::beginTransaction();
 
-        /* try {
-            DB::insert(...);
-            DB::insert(...);
-            DB::insert(...);
+        try {
+            $i=0;
+            foreach($idsSillasArr as $idSilla){
+                $asiento = new Asiento;
+                $asiento->id_reservacion = $idReservacion;
+                $asiento->id_mesa = $idsMesasArr[$i];
+                $asiento->id_silla = $idSilla;
+                
+                DB::table('asiento')->insert(
+                    ['id_mesa' => $asiento->id_mesa, 
+                    'id_silla' => $asiento->id_silla, 
+                    'id_reservacion' => $asiento->id_reservacion,
+                    'created_at' => now(),
+                    'updated_at' => now()]
+                );
+                //$asiento->save();
+
+                $i++;
+            }
 
             DB::commit();
+            return "exito";
             // all good
         } catch (\Exception $e) {
             DB::rollback();
+            return "error";
             // something went wrong
-        } */
+        } 
 
-        DB::transaction(function($qryParamsArr) use ($qryParamsArr) {
-            Log::info("dentro de la transaccion  " . $qryParamsArr[0][0]);
+        /* DB::transaction(function($Arr) use ($qryParamsArr) {
+            //Log::info("dentro de la transaccion  " . $Arr[0][0]);
             $idReservacion = "";
             $idsMesasArr = [];
             $idsSillasArr = [];
             $i=0;
 
-            foreach($qryParamsArr as $param){
+            foreach($Arr as $param){
                 if($i==0){
                     $idReservacion = $param;
                     $i=1;
@@ -76,9 +93,9 @@ class MesasSillasController extends Controller
             }
 
             
-        });
+        }); */
 
-        return "exito";
+        
     }
 
     function getMesasSillas(){
