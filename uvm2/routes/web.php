@@ -34,13 +34,15 @@ Route::get('/referencia', function () {
     return view('referencia');
 });
 
-Route::get('/copia', function () {
-    return view('copia');
+Route::get('/contacto', function () {
+    return view('contacto');
 });
 
 Route::get('/inicio', function () {
     return view('main');
 });
+
+Route::post('/haciacontacto', 'ReferenciaContorller@haciacontacto')->name('haciacontacto');
 
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');

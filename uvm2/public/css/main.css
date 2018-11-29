@@ -1,0 +1,247 @@
+html,
+body {
+  background-color: #fff;
+  color: #111;
+  font-family: "Raleway", sans-serif;
+  font-weight: 100;
+  height: 100vh;
+  margin: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+a,
+a:hover {
+  text-decoration: none;
+  color: white;
+}
+
+nav {
+  display: block;
+  margin: 0;
+}
+
+nav.menu > ul > li:hover {
+  cursor: pointer;
+}
+
+.seccion {
+  position: relative;
+}
+
+.fondo-gris {
+  background-color: #eeeeee;
+}
+
+.fondo-oscuro {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.gris-translucido {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.seccion-ligas {
+  list-style: none;
+}
+
+.texto-blanco {
+  color: whitesmoke;
+}
+
+.menu,
+.menu-bar {
+  margin: auto;
+  text-align: left;
+  color: fff;
+  font-weight: bold;
+  font-size: 0.8em;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 90%;
+  z-index: 1;
+}
+
+.menu ul,
+.menu-bar ul {
+  margin: 0;
+  padding: 0;
+}
+
+.menu-bar ul li {
+  list-style: none;
+  display: inline-block;
+}
+
+/*
+        =================================
+            Menu desplegable responsivo
+        =================================
+        */
+
+.navi {
+  height: 48px;
+  display: inline-table;
+}
+
+.navi > li {
+  float: left;
+  border-top: 4px solid #c00;
+}
+
+.navi > li:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-top: 4px solid rgba(0, 0, 0, 0.7);
+}
+
+.navi > li {
+  padding: 16px;
+}
+
+.navi li ul {
+  display: none;
+}
+
+.navi > li:hover > ul {
+  display: inline-table;
+  position: absolute;
+  background-color: #333333;
+  min-width: 200px;
+  margin-left: -16px;
+  padding-left: 16px;
+}
+
+.navi li ul li:hover {
+  background-color: #555555;
+  margin-left: -16px;
+  border-left: 16px solid #555555;
+}
+
+.navi li ul li:hover > ul {
+  display: inline-block;
+  position: absolute;
+  background-color: #333333;
+  min-width: 200px;
+  padding-left: 16px;
+  margin-left: 16px;
+}
+
+/*
+        =================================
+            Fin Menu desplegable responsivo
+        =================================
+        */
+
+svg:focus {
+  outline: none;
+}
+
+.contenedor-principal {
+  margin-top: -85px;
+}
+
+.menu-bar {
+  position: absolute;
+  width: 100%;
+  margin-top: -400px;
+}
+
+.menu-bar ul li {
+  padding: 10px;
+}
+
+#waldenImg {
+  width: 100%;
+}
+
+/*
+            css para carrousel
+            */
+.slider {
+  margin: 0 auto;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider ul {
+  padding: 0;
+  display: flex;
+  width: 200%;
+  animation: slide 9s infinite alternate;
+}
+
+.slider li {
+  width: 100%;
+}
+
+.slider img {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes slide {
+  0% {
+    margin-left: 0;
+  }
+
+  33% {
+    margin-left: 0%;
+  }
+
+  66% {
+    margin-left: -100%;
+  }
+
+  100% {
+    margin-left: -100%;
+  }
+}
+
+/*fin css para carousel*/
+.footer {
+  background-color: #222222;
+  color: white;
+}
+
+.navbar.navbar-2 .navbar-toggler-icon {
+  background-image: url("https://mdbootstrap.com/img/svg/hamburger2.svg?color=fff");
+}
+
+.floatcontainer {
+  float: right;
+}
+
+.floatcontainer, .inner{
+  width: 150px;
+}
+
+.img-footer-sm{
+  width: 100px;
+}
+
+.img-footer{
+  width: 50px;
+}
+/*=================================
+                MEDIA QUERYS
+===================================*/
+@media (max-width: 1032px) {
+  nav.oculta-md,
+  nav.menu-bar,
+  .oculta-md {
+    display: none;
+  }
+}
+
+@media (min-width: 1033px) {
+  .oculta-lg {
+    display: none;
+  }
+}
+
+/*=================================
+        FIN MEDIA QUERYS
+===================================*/

@@ -42,18 +42,6 @@ class Controller extends BaseController
         }
         
         if($user && $datosReservacionUsuario){
-            require_once "libs/Mobile_Detect.php";
-            $detect = new Mobile_Detect;
-            
-            // Any mobile device (phones or tablets).
-            if ( $detect->isMobile() ) {
-                echo 'movil detectado';
-            }
-            
-            // Any tablet device.
-            if( $detect->isTablet() ){
-                echo 'tablet detectada';
-            }
             return View::make('copia', ['datosReservacionUsuario' => $datosReservacionUsuario]);
         }else{
             return back()->withErrors(['error'=> trans('auth.failed')])

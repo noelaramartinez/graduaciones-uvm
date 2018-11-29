@@ -107,14 +107,34 @@ if (Session::has('datosReservacionUsuario')){
     }
 </script>
 
+
 <style>
     circle:focus {
             outline: none;
         }
 </style>
 
+<md-button class="md-fab md-mini">
+        <md-tooltip
+          md-direction="<%demo.tipDirection%>">
+          1. Inicie sesion. 
+          2. Seleccione sillas. 
+          3. "Reservar"
+        </md-tooltip>
+        <i class="fas fa-question-circle"></i>
+      </md-button>
+      <md-button class="md-fab md-mini">
+            <md-tooltip
+              md-direction="<%demo.tipDirection%>">
+              "Imprimir" disponible al reservar
+            </md-tooltip>
+            <i class="fas fa-question-circle"></i>
+          </md-button>
+
 <body class="text-center" ng-app="App" ng-controller="MesasSillasController as con1">
 
+        
+    <br>
     <button type="button" class="btn btn-info btn-block" ng-click="registrarReservMS()">Reservar</button>
 
     <br>
@@ -134,11 +154,11 @@ if (Session::has('datosReservacionUsuario')){
 
     <h1>{{$nombres}} {{$paterno}}</h1>
 
-    <input ng-hide="hiddendiv" value="{{$nombres}}" id="nombres" name="nombres" />
-    <input ng-hide="hiddendiv" value="{{$status}}" id="status" name="status" />
-    <input ng-hide="hiddendiv" value="{{$idReservacionUsuario}}" id="idReservacionUsuario" name="idReservacionUsuario" />
+    <input ng-hide="hiddendiv" value="{{$nombres}}" id="nombres" name="nombres" disabled/>
+    <input ng-hide="hiddendiv" value="{{$status}}" id="status" name="status" disabled/>
+    <input ng-hide="hiddendiv" value="{{$idReservacionUsuario}}" id="idReservacionUsuario" name="idReservacionUsuario" disabled/>
 
-    <div item-width="1500" class="text-center" style="margin: auto;">
+    <div item-width="100%" class="text-center" style="margin: auto;">
         <svg height="680" width="1240">
             @for ($i = 0; $i < $filas; $i++) 
                 @for ($j=0; $j < $cantidadMesasFila; $j++) 

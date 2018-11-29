@@ -195,10 +195,21 @@ app.controller('MesasSillasController', [
       } else {
         $scope.errorModal(
           "Error en la reservación",
-          "<h3><span class='badge badge-warning'>Debe seleccionar un lugar para ser reservado.</span></h3>",
+          "<h3><span class='badge badge-warning'>Sin lugares seleccionados</span></h3>",
           "OK");
       }
     };
+
+    //TOOLTIP
+    $scope.demo = {
+      showTooltip: false,
+      tipDirection: 'top'
+    };
+  
+    $scope.demo.delayTooltip = undefined;
+    $scope.$watch('demo.delayTooltip', function(val) {
+      $scope.demo.delayTooltip = parseInt(val, 10) || 0;
+    });
 
     //FUNCION PARA LIMPIAR CONTROLLES
     $scope.limpiarControles = function () {
